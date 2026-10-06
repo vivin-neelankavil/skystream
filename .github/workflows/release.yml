@@ -587,7 +587,7 @@ jobs:
           export PATH="$PATH:$HOME/.pub-cache/bin"
           dart pub global activate fastforge 0.6.12
 
-          # Build .deb (AppImage is currently disabled due to tool-level file collision bugs)
+          # Build .deb
           fastforge package --platform linux --targets deb --flutter-build-args=dart-define-from-file=dart-defines.json
 
           # Rename .deb file to match tar.gz convention
@@ -595,8 +595,10 @@ jobs:
 
           # Generate the standard .tar.gz bundle as well
           flutter build linux --release --dart-define-from-file=dart-defines.json
-          cd build/linux/${{ matrix.arch }}/release/bundle
-          tar -czvf "../../../../../skystream-linux-${{ matrix.arch }}-${VERSION}.tar.gz" .
+          (cd build/linux/${{ matrix.arch }}/release/bundle && tar -czvf "../../../../../skystream-linux-${{ matrix.arch }}-${VERSION}.tar.gz" .)
+
+          # Generate the AppImage
+          ./scripts/build_appimage.sh "${{ matrix.arch }}" "build/linux/${{ matrix.arch }}/release/bundle" "skystream-linux-${{ matrix.arch }}-${VERSION}.AppImage"
 
       - name: Upload Release Assets
         uses: ncipollo/release-action@v1
@@ -607,6 +609,7 @@ jobs:
           artifacts: |
             skystream-linux-${{ matrix.arch }}-${{ needs.version.outputs.version }}.tar.gz
             skystream-linux-${{ matrix.arch }}-${{ needs.version.outputs.version }}.deb
+            skystream-linux-${{ matrix.arch }}-${{ needs.version.outputs.version }}.AppImage
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Determine the absolute directory root of the running AppImage container
+HERE="$(dirname "$(readlink -f "${0}")")"
+
+# 1. Point the system linker to Flutter's bundled shared libraries (.so files)
+export LD_LIBRARY_PATH="${HERE}/opt/skystream/lib:${LD_LIBRARY_PATH:-}"
+
+# 2. Prevent Wayland / XWayland scale and context driver crashes on KDE Plasma
+export GDK_BACKEND="x11,wayland"
+
+# 3. Pass system data directories downstream to the application
+export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+
+# 4. Execute the true binary with any arguments the user passed outside the container
+exec "${HERE}/opt/skystream/skystream" "$@"

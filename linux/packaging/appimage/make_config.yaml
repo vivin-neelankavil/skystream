@@ -1,0 +1,10 @@
+display_name: SkyStream
+name: skystream
+description: A modern, media streaming client.
+icon: ios/Runner/Assets.xcassets/AppIcon.appiconset/AppIcon~ios-marketing.png
+categories:
+  - Video
+  - AudioVideo
+  - Player
+generic_name: Media Player
+startup_wm_class: skystream

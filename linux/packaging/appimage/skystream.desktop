@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=SkyStream
+GenericName=Media Player
+Comment=A modern, media streaming client.
+Icon=skystream
+Exec=skystream
+Categories=Video;AudioVideo;Player;
+StartupWMClass=skystream
+Terminal=false

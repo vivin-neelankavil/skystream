@@ -1,7 +1,7 @@
 display_name: SkyStream
 name: skystream
 description: A modern, media streaming client.
-icon: ios/Runner/Assets.xcassets/AppIcon.appiconset/AppIcon~ios-marketing.png
+icon: assets/images/ic_launcher_foreground.png
 categories:
   - Video
   - AudioVideo

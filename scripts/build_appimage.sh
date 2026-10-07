@@ -70,16 +70,15 @@ mkdir -p "${APPDIR}/usr/share/applications"
 cp "${PROJECT_ROOT}/linux/packaging/appimage/skystream.desktop" "${APPDIR}/skystream.desktop"
 cp "${PROJECT_ROOT}/linux/packaging/appimage/skystream.desktop" "${APPDIR}/usr/share/applications/skystream.desktop"
 
-# 4. Add SVG icon and .DirIcon
-mkdir -p "${APPDIR}/usr/share/icons/hicolor/scalable/apps"
-cp "${PROJECT_ROOT}/linux/packaging/appimage/skystream.svg" "${APPDIR}/skystream.svg"
-cp "${PROJECT_ROOT}/linux/packaging/appimage/skystream.svg" "${APPDIR}/usr/share/icons/hicolor/scalable/apps/skystream.svg"
-ln -sf skystream.svg "${APPDIR}/.DirIcon"
+# 4. Add desktop icons and .DirIcon (using ic_launcher_foreground.png)
+ICON_SRC="${PROJECT_ROOT}/assets/images/ic_launcher_foreground.png"
+if [[ ! -f "${ICON_SRC}" ]]; then
+  ICON_SRC="${PROJECT_ROOT}/linux/packaging/appimage/skystream.png"
+fi
 
-# 5. Add PNG icons
-ICON_SRC="${PROJECT_ROOT}/ios/Runner/Assets.xcassets/AppIcon.appiconset/AppIcon~ios-marketing.png"
 if [[ -f "${ICON_SRC}" ]]; then
   cp "${ICON_SRC}" "${APPDIR}/skystream.png"
+  ln -sf skystream.png "${APPDIR}/.DirIcon"
   for size in 128x128 256x256 512x512; do
     mkdir -p "${APPDIR}/usr/share/icons/hicolor/${size}/apps"
     cp "${ICON_SRC}" "${APPDIR}/usr/share/icons/hicolor/${size}/apps/skystream.png"
